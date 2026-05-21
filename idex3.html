@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Lật ảnh đoán địa danh</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+background:#efe3c6;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+h1{
+
+color:#7a1010;
+
+}
+
+#game{
+
+width:350px;
+
+height:350px;
+
+margin:auto;
+
+position:relative;
+
+border:5px solid #7a1010;
+
+overflow:hidden;
+
+}
+
+img{
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+}
+
+.block{
+
+position:absolute;
+
+background:#5f3d25;
+
+border:2px solid gold;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:30px;
+
+font-weight:bold;
+
+color:white;
+
+transition:0.5s;
+
+}
+
+.hide{
+
+opacity:0;
+
+pointer-events:none;
+
+}
+
+button{
+
+display:block;
+
+width:100%;
+
+padding:10px;
+
+margin:7px;
+
+border:none;
+
+background:#7a1010;
+
+color:white;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#b11d1d;
+
+}
+
+#box{
+
+background:white;
+
+padding:15px;
+
+margin-top:15px;
+
+border-radius:12px;
+
+max-width:850px;
+
+margin-left:auto;
+
+margin-right:auto;
+
+}
+
+#finish{
+
+display:none;
+
+font-size:24px;
+
+font-weight:bold;
+
+color:#7a1010;
+
+margin-top:20px;
+
+}
+
+#message{
+
+font-weight:bold;
+
+margin:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🏛️ LẬT ẢNH ĐOÁN ĐỊA DANH</h1>
+
+<div id="game">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/06/Imperial_Citadel_of_Thang_Long.jpg">
+
+<div id="b1" class="block"
+style="left:0;top:0;width:50%;height:33%">?</div>
+
+<div id="b2" class="block"
+style="right:0;top:0;width:50%;height:33%">?</div>
+
+<div id="b3" class="block"
+style="left:0;top:33%;width:100%;height:34%">?</div>
+
+<div id="b4" class="block"
+style="left:0;bottom:0;width:50%;height:33%">?</div>
+
+<div id="b5" class="block"
+style="right:0;bottom:0;width:50%;height:33%">?</div>
+
+</div>
+
+<div id="box">
+
+<h3 id="question"></h3>
+
+<div id="answers"></div>
+
+<div id="message"></div>
+
+</div>
+
+<div id="finish">
+
+🎉 Hoàn thành
+
+<br><br>
+
+Đây là địa danh nổi tiếng nào?
+
+<br><br>
+
+🏛️ HOÀNG THÀNH THĂNG LONG
+
+</div>
+
+<script>
+
+const data=[
+
+{
+
+q:"Câu 1. Theo tư tưởng Hồ Chí Minh về mục đích cốt lõi của Cách mạng Việt Nam, hai giai đoạn Cách mạng xã hội chủ nghĩa (CNXH) và Cách mạng cộng sản chủ nghĩa (CNCS) có những điểm giống nhau căn bản nào?",
+
+a:[
+
+"A", Xã hội hoàn toàn không còn bất kỳ vết tích hay tàn dư nào của xã hội cũ để lại.
+
+"B", Sức sản xuất đã phát triển cao; Tư liệu sản xuất là của chung; Không có giai cấp áp bức, bóc lột.
+
+"C", Áp dụng triệt để nguyên tắc phân phối sản phẩm theo nhu cầu tự nhiên của con người.
+
+"D" Sự đồng nhất hoàn toàn về trình độ giác ngộ và lối sống của mọi thành viên xã hội.
+
+],
+
+d:1
+
+},
+
+{
+
+q:"Câu 2. Khi giải thích về quy luật tiến lên chủ nghĩa xã hội của nhân loại, Hồ Chí Minh có luận điểm: "Có nước đi thẳng đến CNXH... có nước thì phải kinh qua chế độ dân chủ mới...". Bản chất của "Chế độ dân chủ mới" theo giải thích của Người là gì?",
+
+a:[
+
+"A", Chế độ đặt dưới sự lãnh đạo của Đảng Cộng sản, nhằm đánh đổ đế quốc, phong kiến, nhân dân lao động làm chủ.
+
+"B", Một hình thái quá độ trung gian, nơi các đảng phái tư sản và vô sản cùng chia sẻ quyền lực chính trị.
+
+"C", Mô hình kinh tế thị trường tự do hoàn toàn trước khi nhà nước tiến hành quốc hữu hóa tư liệu sản xuất.
+
+"D" Giai đoạn duy trì nền quân chủ lập hiến tạm thời để ổn định trật tự xã hội sau chiến tranh.
+
+],
+
+d:0
+
+},
+
+{
+
+q:"Câu 3. Sự khác biệt căn bản nhất về tư duy nhân văn giữa chủ nghĩa xã hội và các chế độ xã hội trước đó được Hồ Chí Minh vạch rõ thông qua động lực nào sau đây?",
+
+a:[
+
+"A", CNXH yêu cầu cá nhân phải tuyệt đối hy sinh mọi quyền lợi và sở thích riêng vì lợi ích tối cao của tập thể.
+
+"B",CNXH lấy việc tích lũy của cải vật chất làm thước đo duy nhất cho sự phát triển toàn diện của con người.
+
+"C", CNXH không chỉ quan tâm đến lợi ích cộng đồng mà còn đặc biệt quan tâm đến lợi ích cá nhân, điều kiện, tính cách và sở trường riêng của từng người.
+
+"D" CNXH tập trung giải quyết triệt để mâu thuẫn giai cấp bằng cách bóc lột ngược lại giai cấp tư sản cũ.
+
+],
+
+d:2
+
+},
+
+{
+
+q:"Câu 4. Trong tư tưởng Hồ Chí Minh, vì sao thời kỳ quá độ lên chủ nghĩa xã hội ở Việt Nam lại được Người nhận định là một cuộc chiến đấu "thậm chí nó còn gian nan, phức tạp hơn cả đánh giặc"?",
+
+a:[
+
+"A", Vì đây là cuộc cải biến sâu sắc, toàn diện, phải xóa bỏ những thói quen, lối sống, suy nghĩ cũ kỹ đã ăn sâu bám rễ hàng ngàn năm và xây dựng những yếu tố hoàn toàn mới.
+
+"B", Vì các thế lực đế quốc bên ngoài liên tục gia tăng cường độ phong tỏa kinh tế và đe dọa vũ lực.
+
+"C", Vì nước ta hoàn toàn thiếu thốn cơ sở lý luận cách mạng làm kim chỉ nam dẫn đường.
+
+"D" Vì giai cấp nhân dân lao động trong nước không có tinh thần tự lực cánh sinh.
+
+],
+
+d:0
+
+},
+
+{
+
+q:"Câu 5. Bên cạnh việc "xây dựng", Hồ Chí Minh đặc biệt căn dặn phải "chống" lại căn bệnh phổ biến nào trong mỗi con người vốn được ví như loại "vi trùng độc hại" sinh ra các bệnh tham lam, kiêu ngạo, hám danh ?"
+
+a:[
+
+"A", Bệnh giáo điều, rập khuôn.
+
+"B", Chủ nghĩa cá nhân.
+
+"C", Bệnh quan liêu, hách dịch.
+
+"D" Tâm lý tự ti dân tộc.
+
+],
+
+d:1
+
+}
+
+];
+
+let current=0;
+
+let opened=0;
+
+load();
+
+function load(){
+
+if(current>=5){
+
+document
+.getElementById("box")
+.style.display="none";
+
+document
+.getElementById("finish")
+.style.display="block";
+
+return;
+
+}
+
+let q=data[current];
+
+document
+.getElementById("question")
+.innerHTML=q.q;
+
+let html="";
+
+q.a.forEach((x,i)=>{
+
+html+=
+
+`<button onclick="check(${i})">
+
+${x}
+
+</button>`;
+
+});
+
+document
+.getElementById("answers")
+.innerHTML=html;
+if(choice===data[current].d){
+
+opened++;
+
+document
+.getElementById(
+"b"+opened
+)
+.classList.add("hide");
+
+document
+.getElementById("message")
+.innerHTML=
+
+"✅ Chính xác";
+
+current++;
+
+setTimeout(()=>{
+
+document
+.getElementById("message")
+.innerHTML="";
+
+load();
+
+},700);
+
+}
+
+else{
+
+document
+.getElementById("message")
+.innerHTML=
+
+"❌ Sai rồi, thử lại";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
+}
+
+function check(choice){
