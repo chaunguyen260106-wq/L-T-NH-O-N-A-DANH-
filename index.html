@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<style>
+
+body{
+
+font-family:Arial;
+
+background:#f5e8d3;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+#game{
+
+width:320px;
+height:320px;
+
+margin:auto;
+
+position:relative;
+
+border:4px solid #7a1111;
+
+overflow:hidden;
+
+}
+
+img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+}
+
+.cover{
+
+position:absolute;
+
+background:#6b4423;
+
+border:2px solid gold;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+font-weight:bold;
+
+color:white;
+
+transition:0.5s;
+
+}
+
+.open{
+
+opacity:0;
+
+pointer-events:none;
+
+}
+
+button{
+
+display:block;
+
+width:100%;
+
+margin:8px 0;
+
+padding:10px;
+
+border:none;
+
+background:#7a1111;
+
+color:white;
+
+border-radius:8px;
+
+}
+
+#message{
+
+font-weight:bold;
+
+margin:10px;
+
+}
+
+#finish{
+
+display:none;
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#7a1111;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>🏛️ Ghép ảnh địa danh</h2>
+
+<div id="game">
+
+<img
+src="https://images.unsplash.com/photo-1528127269322-539801943592?w=600"
+>
+
+<div class="cover"
+id="p1"
+style="top:0;left:0;width:50%;height:33%">
+?
+</div>
+
+<div class="cover"
+id="p2"
+style="top:0;right:0;width:50%;height:33%">
+?
+</div>
+
+<div class="cover"
+id="p3"
+style="top:33%;left:0;width:100%;height:34%">
+?
+</div>
+
+<div class="cover"
+id="p4"
+style="bottom:0;left:0;width:50%;height:33%">
+?
+</div>
+
+<div class="cover"
+id="p5"
+style="bottom:0;right:0;width:50%;height:33%">
+?
+</div>
+
+</div>
+
+<h3 id="question"></h3>
+
+<div id="answers"></div>
+
+<div id="message"></div>
+
+<div id="finish">
+
+🎉 Hoàn thành
+
+Đây là địa danh nổi tiếng nào?
+
+👉 Hãy đoán đáp án
+
+</div>
+
+<script>
+
+const questions=[
+
+{
+
+q:"1+1=?",
+
+a:["1","2","3","4"],
+
+d:1
+
+},
+
+{
+
+q:"Thủ đô Việt Nam?",
+
+a:["Huế","Hà Nội","Đà Nẵng","Cần Thơ"],
+
+d:1
+
+},
+
+{
+
+q:"Quốc kỳ Việt Nam?",
+
+a:["Đỏ sao vàng",
+"Xanh trắng",
+"Đen trắng",
+"Đỏ xanh"],
+
+d:0
+
+},
+
+{
+
+q:"5+5=?",
+
+a:["9","10","11","12"],
+
+d:1
+
+},
+
+{
+
+q:"Hồ Chí Minh đọc Tuyên ngôn Độc lập năm?",
+
+a:["1945","1975","1930","1954"],
+
+d:0
+
+}
+
+];
+
+let current=0;
+
+let opened=0;
+
+load();
+
+function load(){
+
+if(current>=5){
+
+document
+.getElementById("question")
+.style.display="none";
+
+document
+.getElementById("answers")
+.style.display="none";
+
+document
+.getElementById("finish")
+.style.display="block";
+
+return;
+
+}
+
+let q=questions[current];
+
+document
+.getElementById("question")
+.innerHTML=q.q;
+
+let html="";
+
+q.a.forEach((x,i)=>{
+
+html+=
+
+`<button onclick="check(${i})">
+
+${x}
+
+</button>`;
+
+});
+
+document
+.getElementById("answers")
+.innerHTML=html;
+
+}
+
+function check(choice){
+
+if(choice==questions[current].d){
+
+opened++;
+
+document
+.getElementById(
+"p"+opened
+)
+.classList.add("open");
+
+document
+.getElementById("message")
+.innerHTML=
+
+"✅ Chính xác";
+
+current++;
+
+setTimeout(load,700);
+
+}
+
+else{
+
+document
+.getElementById("message")
+.innerHTML=
+
+"❌ Sai rồi, thử lại";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
